@@ -26,6 +26,7 @@ function PutOnBag()
     end
     AttachEntityToEntity(bag, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), 24818), 0.07, -0.11, -0.05, 0.0, 90.0, 175.0, true, true, false, true, 1, true)
     TriggerServerEvent('backpack:SetEntity', NetworkGetNetworkIdFromEntity(bag))
+    SetNetworkIdCanMigrate(NetworkGetNetworkIdFromEntity(bag), false)
     SetModelAsNoLongerNeeded(GetHashKey(props))
     lastPed = PlayerPedId()
     CreateThread(function() -- Note: This thread checks if the player has changed ped (e.g. respawned) and removes the bag if so
@@ -34,7 +35,7 @@ function PutOnBag()
             if lastPed ~= PlayerPedId() then
                 RemoveBag()
                 Wait(100)
-                if ox_inventory:GetItemCount('backpack') > 0 then
+                if ox_inventory:GetItemCount('backpack') > 0 and not IsPedInVehicle(PlayerPedId(), GetVehiclePedIsIn(PlayerPedId(), false))  then
                     if not bag then
                         PutOnBag()
                     end
@@ -51,7 +52,6 @@ end
 function RemoveBag()
     if bag then
         DetachEntity(bag, true, true)
-        DeleteObject(bag)
         TriggerServerEvent('backpack:SetEntity', nil)
         bag = nil
         lastPed = nil
@@ -59,11 +59,25 @@ function RemoveBag()
 end
 -- End of backpack removal
 
+AddEventHandler('esx:enteredVehicle', function()
+    if bag then
+        RemoveBag()
+    end
+end)
+
+AddEventHandler('esx:exitedVehicle', function()
+    if ox_inventory:GetItemCount('backpack') > 0 then
+        if not bag then
+            PutOnBag()
+        end
+    end
+end)
+
 
 
 -- ox_inventory update handler
 AddEventHandler('ox_inventory:updateInventory', function(changes)
-    if ox_inventory:GetItemCount('backpack') > 0 then
+    if ox_inventory:GetItemCount('backpack') > 0 and not IsPedInVehicle(PlayerPedId(), GetVehiclePedIsIn(PlayerPedId(), false)) then
         if not bag then
             PutOnBag()
         end

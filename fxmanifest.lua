@@ -3,7 +3,7 @@ game 'gta5'
 
 author '𝙂𝙤𝙬𝙬𝙖𝙣𝙐𝙣𝙙𝙚𝙧𝙨𝙖𝙪𝙘𝙚'
 description 'Backpack system for ox_inventory'
-version '1.0.0'
+version '1.0.1'
 
 shared_scripts {
     '@ox_lib/init.lua',

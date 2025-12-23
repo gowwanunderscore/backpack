@@ -62,7 +62,19 @@ end
 
 -- Registering network event to set entity
 RegisterNetEvent('backpack:SetEntity', function(netId)
-    entities[source] = netId
+	if netId == nil then
+		local existingNetId = entities[source]
+		if existingNetId then
+			local entity = NetworkGetEntityFromNetworkId(existingNetId)
+			if DoesEntityExist(entity) then
+				DeleteEntity(entity)
+			end
+			entities[source] = nil
+		end
+		return
+	else
+		entities[source] = netId
+	end
 end)
 -- End of network event
 
