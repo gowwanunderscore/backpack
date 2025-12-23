@@ -1,21 +1,5 @@
 # 🎒 Backpack — Inventory Addon
 
-> 🌍 Multilingual README  
-> 🇬🇧 English | 🇫🇷 Français | 🇪🇸 Español | 🇩🇪 Deutsch
-
----
-
-## 📑 Table of Contents
-
-- [English](#-english)
-- [Français](#-français)
-- [Español](#-español)
-- [Deutsch](#-deutsch)
-
----
-
-## 🇬🇧 English
-
 ### Description
 
 This resource adds a **backpack item** to your server’s inventory system, allowing players to carry more items.
